@@ -72,4 +72,17 @@ class DataFile:
         else:
             return None
 
+#Collection class, to collect different DataFile with common feature in a smart way
+class Collection:
+    def __init__(self, df_list, features):
+        self.df_list = df_list
+        self.features = features
+
+    def get_dict(self):
+        return utils.df2collect(df, features)
+
+    def get_feature(self):
+        return self.features
+
         
+

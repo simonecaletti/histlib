@@ -22,6 +22,7 @@ default_encoding='utf-8'
 
 
 ######################################################################
+#Functions for the DataFrame class 
 
 class Error(Exception):
     """Base class for exceptions in this module."""
@@ -70,7 +71,7 @@ def get_array(file, regexp=None, fortran=False, skip=[0,0], separator=' '):
 
   # do some basic error checking
   if (len(lines) < 1):
-    raise Error("Block in get_array had 0 useful lines")
+    raise Error("Block in get_array had 0 useful lines.")
 
   #keep only the lines you want according to skip 
   goodlines = []
@@ -80,10 +81,11 @@ def get_array(file, regexp=None, fortran=False, skip=[0,0], separator=' '):
     iline += 1
 
   # now we know the size, transfer the information to a numpy ndarray
-  ncol = len(goodlines[0].split())                
+  ncol = len(' '.join([s.strip() for s in goodlines[0].split(separator)]).split())                
   num_array = np.empty( (len(goodlines), ncol) )
   for i in range(len(goodlines)):
-    num_array[i,:] = goodlines[i].split(separator)
+    cleaned = ' '.join([s.strip() for s in goodlines[i].split(separator)]).split()
+    num_array[i, :] = cleaned
   return num_array
 
 def array2dict(array, keys):
@@ -91,7 +93,7 @@ def array2dict(array, keys):
     dict = {}
     #check
     ncol = len(array[1, :])
-    if ncol != len(keys): print("Error: different number of keys and columns")
+    if ncol != len(keys): print("Error: different number of keys and columns.")
     #otherwise fill the dict
     else: 
         for key, icol in zip(keys, range(ncol)):
@@ -99,4 +101,16 @@ def array2dict(array, keys):
     
     return dict
 
+#######################################################################
+#Function for the Collection class 
+
+def df2collect(df_list, features):
+    dict = {}
+    if len(df_list) == len(features):
+        for df, feat in zip(df_list, features):
+            dict[feat] = df
+    else:
+        print("Error: different number of DataFrames and features.")
+
+    return dict
 
