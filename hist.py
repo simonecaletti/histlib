@@ -79,7 +79,7 @@ class Collection:
         self.features = features
 
     def get_dict(self):
-        return utils.df2collect(df, features)
+        return utils.df2collect(self.df_list, self.features)
 
     def get_feature(self):
         return self.features

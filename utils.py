@@ -108,7 +108,7 @@ def df2collect(df_list, features):
     dict = {}
     if len(df_list) == len(features):
         for df, feat in zip(df_list, features):
-            dict[feat] = df
+            dict[feat] = df.get_dict()
     else:
         print("Error: different number of DataFrames and features.")
 
