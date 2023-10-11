@@ -12,6 +12,5 @@ import hist
 
 #######################################################
 
-def plot(DataFile)
-
+def df2plot(df)
 

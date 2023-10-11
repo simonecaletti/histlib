@@ -12,7 +12,8 @@
 #import re
 #import string
 
-import utils 
+import utils
+import numpy as np 
 
 
 ######################################################################
@@ -90,6 +91,7 @@ class Collection:
     def __init__(self, objects, features):
         self.objects = objects
         self.features = features
+        self.data = self.get_dict()
 
     def get_dict(self):
         return utils.obj2collect(self.objects, self.features)
@@ -101,18 +103,54 @@ class Collection:
 
 #Plot class, to make plots out of a collection of (collections of) DataFiles
 class Plot:
-    def __init__(self, coll):
-        self.coll = coll
+    def __init__(self, obj, output_path="."):
+        self.obj = obj
+        self.itstype = self.get_type()
+        self.nlayer = self.get_layer()
+        self.output_path = output_path
         
-    def get_pdf():
+    def get_type(self):
+        if type(self.obj) == dict:
+            return "dict"
+        else:
+            print("Error: obj is not a dict. Use get_dict() method on DataFile or Collections before plotting.")
+            return None
+
+    def get_layer(self):
+
+        ilayer = 0
+        if self.itstype == "dict":
+            isDict = True
+            test = self.obj[list(self.obj.keys())[0]]
+            while isDict:
+                if isinstance(test, dict): 
+                    test = test[list(test.keys())[0]]
+                    ilayer += 1
+                elif isinstance(test, np.ndarray):
+                    isDict = False
+                else: 
+                    print("Error: nested object are not dict or list.")
+                    break
+                       
+            return ilayer
+
+        else:
+            print("Error: obj is not a dict. Use get_dict() method on DataFile or Collections before plotting.")
+            return None
+
+    def gen_plots(self):
+
+        return None
+        
+    def get_pdf(self):
 
         return pdf
 
-    def add_ratioplot(keynum, keyden):
+    def add_ratioplot(self, keynum, keyden):
 
         return None
 
-    def add_legend():
+    def add_legend(self):
 
         return None
 
