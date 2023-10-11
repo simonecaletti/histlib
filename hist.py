@@ -34,7 +34,7 @@ class DataFile:
         self.fortran = fortran 
         self.keys = colnames if colnames is not None else []  # Use an empty list if column_names is not provided
         self.skip = skip
-        self.data = {}
+        self.data = self.get_dict()
         self.ncol = self.get_ncols()
 
     def get_array(self):
@@ -46,15 +46,18 @@ class DataFile:
         return len(array[0,:])
 
     def check_ncols(self):
-        if self.ncol != len(self.keys) and self.keys != []: 
+        if self.get_ncols() != len(self.keys) and self.keys != []: 
             print("Error: ncols and number of column's names should be the same.")
             return False
+        elif self.keys == []:
+            self.automatic_colnames()
+            return True
         else:
             return True
 
     def automatic_colnames(self):
         if self.keys == []:
-            for colname in ["col{}".format(icol) for icol in range(self.ncol)]: self.keys.append(colname)
+            for colname in ["col{}".format(icol) for icol in range(self.get_ncols())]: self.keys.append(colname)
         return None
 
     def get_colnames(self):
@@ -62,13 +65,23 @@ class DataFile:
 
     def update_colnames(self, keys):
         self.keys = keys
+        self.data = self.get_dict()
         if not self.check_ncols(): print("Set new colnames.")
+        return None
+
+    def append_column(self, newcol, newcolname=None):
+        new_array = np.hstack((self.get_array(), newcol))
+        if newcolname is not None: self.keys.append(newcolname)
+        else: self.automatic_colnames()
+        self.data = self.get_dict()
+        return new_array
 
     def get_dict(self):
         array = self.get_array()
         self.automatic_colnames()
         if self.check_ncols():
-            return utils.array2dict(array, self.keys)
+            self.data = utils.array2dict(array, self.keys)
+            return self.data
         else:
             return None
 
@@ -84,5 +97,25 @@ class Collection:
     def get_feature(self):
         return self.features
 
+
+
+#Plot class, to make plots out of a collection of (collections of) DataFiles
+class Plot:
+    def __init__(self, coll):
+        self.coll = coll
+        
+    def get_pdf():
+
+        return pdf
+
+    def add_ratioplot(keynum, keyden):
+
+        return None
+
+    def add_legend():
+
+        return None
+
+    
         
 
