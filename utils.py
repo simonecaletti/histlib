@@ -104,13 +104,13 @@ def array2dict(array, keys):
 #######################################################################
 #Function for the Collection class 
 
-def df2collect(df_list, features):
+def obj2collect(obj_list, features):
     dict = {}
-    if len(df_list) == len(features):
-        for df, feat in zip(df_list, features):
-            dict[feat] = df.get_dict()
+    if len(obj_list) == len(features):
+        for obj, feat in zip(obj_list, features):
+            dict[feat] = obj
     else:
-        print("Error: different number of DataFrames and features.")
+        print("Error: different number of objects and features.")
 
     return dict
 

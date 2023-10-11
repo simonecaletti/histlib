@@ -74,12 +74,12 @@ class DataFile:
 
 #Collection class, to collect different DataFile with common feature in a smart way
 class Collection:
-    def __init__(self, df_list, features):
-        self.df_list = df_list
+    def __init__(self, objects, features):
+        self.objects = objects
         self.features = features
 
     def get_dict(self):
-        return utils.df2collect(self.df_list, self.features)
+        return utils.obj2collect(self.objects, self.features)
 
     def get_feature(self):
         return self.features
