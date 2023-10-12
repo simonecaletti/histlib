@@ -8,21 +8,11 @@
 
 
 import utils 
-import hist
 import matplotlib.pyplot as plt 
 import matplotlib.gridspec as gridspec 
 import matplotlib.cm as cm 
 
 #######################################################
-
-def init_plot(w=1, h=1, nratio=0):
-    fig = plt.figure(figsize=(w, h))
-    return fig
-
-def add_axes(fig):
-    
-
-    return None
 
 def set_ratioplot(nratioplt):
 
@@ -182,6 +172,25 @@ def remove_overlapping_ticks(axis_list):
 
 #####################################################
 
+def get_hist(dict, obskey, centerkey="center", edgeskey="edges", histtype="step", show=False):
+    histogram = plt.hist(dict[centerkey], dict[edgeskey], weights=dict[obskey], histtype=histtype)
+    if show: plt.show()
+    return histogram 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+######################################################
 
 def plot(w=30., h=30., nratioplt=0, show_MC=False, errboxes=False, X=[100, 1000, 100], Y0=[-6, 0], Y1=[0, 1, 0.1], Y2=[0, 1, 0.1], Y3=[0, 1, 0.1], figname="prova", legend=["A", "B", "C"], y_leg2=0.75):
     

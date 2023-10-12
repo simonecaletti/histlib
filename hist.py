@@ -13,7 +13,9 @@
 #import string
 
 import utils
-import numpy as np 
+import plot
+import numpy as np
+import matplotlib.pyplot as plt
 
 
 ######################################################################
@@ -119,51 +121,24 @@ class Collection:
 
 #Plot class, to make plots out of a collection of (collections of) DataFiles
 class Plot:
-    def __init__(self, obj, output_path="."):
-        self.obj = obj
-        self.itstype = self.get_type()
-        self.nlayer = self.get_layer()
+    def __init__(self, datafile, output_path="./", filename="testplot"):
+        self.datafile = datafile
         self.output_path = output_path
+        self.filename = filename
         
-    def get_type(self):
-        if type(self.obj) == dict:
-            return "dict"
-        else:
-            print("Error: obj is not a dict. Use get_dict() method on DataFile or Collections before plotting.")
-            return None
 
-    def get_layer(self):
+    def get_hist(self, weightskey, centerkey="center", edgeskey="edges", histtype="step"):
+        return plot.get_hist(self.datafile, weightskey, centerkey=centerkey, edgeskey=edgeskey, histtype=histtype)
 
-        ilayer = 0
-        if self.itstype == "dict":
-            isDict = True
-            test = self.obj[list(self.obj.keys())[0]]
-            while isDict:
-                if isinstance(test, dict): 
-                    test = test[list(test.keys())[0]]
-                    ilayer += 1
-                elif isinstance(test, np.ndarray):
-                    isDict = False
-                else: 
-                    print("Error: nested object are not dict or list.")
-                    break
-                       
-            return ilayer
-
-        else:
-            print("Error: obj is not a dict. Use get_dict() method on DataFile or Collections before plotting.")
-            return None
-
-    def gen_plots(self):
-
+    def print(self, weightskey, centerkey="center", edgeskey="edges", histtype="step", format="pdf"):
+        self.get_hist(weightskey, centerkey=centerkey, edgeskey=edgeskey, histtype=histtype)
+        plt.savefig(self.filename, format=format)
+        plt.close()
         return None
+
+    def ratioplot(self, keynum, keyden):
+        ratio = np.ndarray([num/den for num, den in zip(self.datafile[keynum], self.datafile[keyden])])
         
-    def get_pdf(self):
-
-        return pdf
-
-    def add_ratioplot(self, keynum, keyden):
-
         return None
 
     def add_legend(self):
