@@ -36,7 +36,8 @@ class DataFile:
         self.keys = colnames if colnames is not None else []  # Use an empty list if column_names is not provided
         self.skip = skip
         self.data = self.get_dict()
-        self.ncol = self.get_ncols()
+        self.array = self.get_array()
+        self.ncols = self.get_ncols()
 
     def get_array(self):
         return utils.get_array(self.file_path, fortran=self.fortran, skip=self.skip, separator=self.separator)
@@ -71,20 +72,35 @@ class DataFile:
         return None
 
     def append_column(self, newcol, newcolname=None):
-        new_array = np.hstack((self.get_array(), newcol))
+        new_array = np.column_stack((self.get_array(), newcol))
         if newcolname is not None: self.keys.append(newcolname)
         else: self.automatic_colnames()
-        self.data = self.get_dict()
-        return new_array
+        #self.ncols += 1
+        self.array = new_array
+        self.data[newcolname] = np.array(newcol)
+        return None
+
+    def get_bincenter(self, leftcolname, rightcolname):
+        return utils.get_bincenter(self.data[leftcolname], self.data[rightcolname])
+
+    def add_bincenter(self, leftcolname, rightcolname, newcolname="center"):
+        center = self.get_bincenter(leftcolname, rightcolname)
+        self.append_column(center, newcolname)
+        return None
+
+    def get_alledges(self, leftcolname, rightcolname):
+        return utils.all_edges(self.data[leftcolname], self.data[rightcolname])
+
+    def add_alledges(self, leftcolname, rightcolname, newcolname="edges"):
+        edges = self.get_alledges(leftcolname, rightcolname)
+        self.data[newcolname] = edges
+        return None
 
     def get_dict(self):
         array = self.get_array()
         self.automatic_colnames()
-        if self.check_ncols():
-            self.data = utils.array2dict(array, self.keys)
-            return self.data
-        else:
-            return None
+        self.data = utils.array2dict(array, self.keys)
+        return self.data
 
 #Collection class, to collect different DataFile with common feature in a smart way
 class Collection:

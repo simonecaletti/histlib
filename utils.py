@@ -101,6 +101,17 @@ def array2dict(array, keys):
     
     return dict
 
+def all_edges(left, right):
+    edges = left.copy()
+    edges = np.append(edges, right[-1])
+    return edges
+
+def get_bincenter(left, right):
+    center = []
+    for l, r in zip(left, right):
+        center.append((l+r)/2)
+    return np.array(center)
+
 #######################################################################
 #Function for the Collection class 
 
