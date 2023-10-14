@@ -8,7 +8,7 @@
 
 import numpy as np 
 import pandas as pd 
-import io, sys
+import io, sys, os
 import re
 import string
 from builtins import range
@@ -92,7 +92,7 @@ def array2dict(array, keys):
 
     dict = {}
     #check
-    ncol = len(array[1, :])
+    ncol = len(array[0, :])
     if ncol != len(keys): print("Error: different number of keys and columns.")
     #otherwise fill the dict
     else: 
@@ -124,4 +124,20 @@ def obj2collect(obj_list, features):
         print("Error: different number of objects and features.")
 
     return dict
+
+#########################################################################
+#Functions for the final script
+
+def get_filenames_from(path):
+    if path[-1] != "/": path += "/"
+    filenames = [f for f in os.listdir(path) if os.path.isfile(path + f)]
+    return filenames 
+
+def automatic_output_names(filenames, format="pdf"):
+    outnames = []
+    for name in filenames:
+        newname = name[:-3]
+        newname += format
+        outnames.append(newname)
+    return outnames 
 

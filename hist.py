@@ -13,7 +13,6 @@
 #import string
 
 import utils
-import plot
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -48,6 +47,9 @@ class DataFile:
     def get_ncols(self):
         array = self.get_array()
         return len(array[0,:])
+
+    def get_col(self, colkey):
+        return self.data[colkey] 
 
     def check_ncols(self):
         if self.get_ncols() != len(self.keys) and self.keys != []: 
@@ -121,24 +123,34 @@ class Collection:
 
 #Plot class, to make plots out of a collection of (collections of) DataFiles
 class Plot:
-    def __init__(self, datafile, output_path="./", filename="testplot"):
-        self.datafile = datafile
-        self.output_path = output_path
-        self.filename = filename
+    def __init__(self, datafile, outname="plot"):
+        self.datafile = datafile 
+        self.outname = outname
         
-
     def get_hist(self, weightskey, centerkey="center", edgeskey="edges", histtype="step"):
-        return plot.get_hist(self.datafile, weightskey, centerkey=centerkey, edgeskey=edgeskey, histtype=histtype)
+        return plt.hist(self.datafile[centerkey], self.datafile[edgeskey], weights=self.datafile[weightskey], histtype=histtype) 
 
-    def print(self, weightskey, centerkey="center", edgeskey="edges", histtype="step", format="pdf"):
-        self.get_hist(weightskey, centerkey=centerkey, edgeskey=edgeskey, histtype=histtype)
-        plt.savefig(self.filename, format=format)
-        plt.close()
+    def print(self, format="pdf"):
+        plt.savefig(self.outname, format=format)
         return None
 
-    def ratioplot(self, keynum, keyden):
-        ratio = np.ndarray([num/den for num, den in zip(self.datafile[keynum], self.datafile[keyden])])
-        
+    def title(self, title):
+        plt.title(title)
+        return None
+
+    def xaxis(self):
+
+        return None
+
+    def yaxis(self):
+
+        return None
+
+
+
+
+    def add_ratioplot(self, keynum, keyden):
+
         return None
 
     def add_legend(self):
