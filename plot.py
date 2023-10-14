@@ -15,14 +15,7 @@ import matplotlib.cm as cm
 
 #######################################################
 
-def init_plot(w=1, h=1, nratio=0):
-    fig = plt.figure(figsize=(w, h))
-    return fig
 
-def add_axes(fig):
-    
-
-    return None
 
 def set_ratioplot(nratioplt):
 

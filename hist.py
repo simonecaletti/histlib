@@ -15,6 +15,7 @@
 import utils
 import numpy as np
 import matplotlib.pyplot as plt
+import plot
 
 
 ######################################################################
@@ -123,10 +124,22 @@ class Collection:
 
 #Plot class, to make plots out of a collection of (collections of) DataFiles
 class Plot:
-    def __init__(self, datafile, outname="plot"):
+    def __init__(self, datafile, w=30., h=30., outname="plot"):
         self.datafile = datafile 
         self.outname = outname
-        
+        self.width = w 
+        self.height = h 
+        self.canvas = self.get_canvas()
+    
+    def get_canvas(self):
+        f, ax = plt.subplots(1, 1, sharex=True, figsize=(self.width , self.height), dpi=100)
+        return (f, ax)
+
+    def set_size(self, w, h):
+        self.width = w 
+        self.height = h 
+        return None 
+
     def get_hist(self, weightskey, centerkey="center", edgeskey="edges", histtype="step"):
         return plt.hist(self.datafile[centerkey], self.datafile[edgeskey], weights=self.datafile[weightskey], histtype=histtype) 
 
@@ -139,16 +152,16 @@ class Plot:
         plt.title(title)
         return None
 
-    def xaxis(self):
-
+    def xaxis(self, xinfo, logscale=False, ifshow=True): #xinfo = [start, end, step]
+        if logscale:
+            plot.set_logx_axis(self.canvas[1], xinfo[0], xinfo[1], if_show=ifshow) #xinfo=[start, end]
+        else:
+            plot.set_x_axis(self.canvas[1], xinfo, if_show=ifshow)
         return None
 
-    def yaxis(self):
-
+    def yaxis(self, yinfo, ifshow=True):
+        plot.set_y_axis(self.canvas[1], yinfo, if_show=ifshow)
         return None
-
-
-
 
     def add_ratioplot(self, keynum, keyden):
 
