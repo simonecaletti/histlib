@@ -132,6 +132,7 @@ class Plot:
 
     def print(self, format="pdf"):
         plt.savefig(self.outname, format=format)
+        plt.close()
         return None
 
     def title(self, title):

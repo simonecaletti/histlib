@@ -5,11 +5,13 @@ import matplotlib.pyplot as plt
 import numpy as np 
 
 path = "./combined/Final/"
-#filenames = utils.get_filenames_from(path)
-#pdfnames = utils.automatic_output_names(filenames)
+filenames = utils.get_filenames_from(path) #consider also LO.cross.dat file which has a different structure
+filenames = utils.remove_crossfiles(filenames)
+print(filenames)
+pdfnames = utils.automatic_output_names(filenames)
 
-filenames = ["LO.pt_had.dat"]
-pdfnames = ["LO.pt_had.pdf"]
+#filenames = ["LO.pt_had.dat", "LO.xit_hadZ.dat"]
+#pdfnames = ["LO.pt_had.pdf", "LO.xit_hadZ.pdf"]
 
 keys = ["left", "center", "right", "value05", "err05", "value1", "err05", "value2", "err2"]
 

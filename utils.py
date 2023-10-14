@@ -141,3 +141,9 @@ def automatic_output_names(filenames, format="pdf"):
         outnames.append(newname)
     return outnames 
 
+def remove_crossfiles(filenames):
+    newfilenames = []
+    for name in filenames:
+        if name.find("cross") == -1:
+            newfilenames.append(name)
+    return newfilenames 
