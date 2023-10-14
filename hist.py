@@ -124,7 +124,7 @@ class Collection:
 
 #Plot class, to make plots out of a collection of (collections of) DataFiles
 class Plot:
-    def __init__(self, datafile, w=30., h=30., outname="plot"):
+    def __init__(self, datafile, w=1., h=1., outname="plot"):
         self.datafile = datafile 
         self.outname = outname
         self.width = w 

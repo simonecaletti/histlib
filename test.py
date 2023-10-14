@@ -26,8 +26,8 @@ for fn, pdf in zip(filenames, pdfnames):
     #project = hist.Collection([list of dfs], [list of feature])
 
     #create plot object 
-    t = hist.Plot(df.data, outname = pdf)
-    t.set_size(1, 1)
+    t = hist.Plot(df.data, w=5, h=5, outname = pdf)
+    #t.set_size(5, 5)
 
     #Add histogram to the plot 
     t.get_hist("value1")
