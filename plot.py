@@ -13,26 +13,6 @@ import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec 
 import matplotlib.cm as cm 
 
-#######################################################
-
-
-
-def set_ratioplot(nratioplt):
-
-    nplt = nratioplt + 1
-    relative_height = [nplt]
-    for i in range(nratioplt):
-        relative_height.append(1)
-
-    gs = gridspec.GridSpec(nplt, height_ratios=relative_height)
-    gs.update(wspace=0.0, hspace=0.0)
-    
-    ax = [plt.subplot(gs[0,0])]
-    for i in range(nratioplt):
-        ax += [plt.subplot(gs[i+1, 0])]
-
-    return None
-
 #########################################################à
 
 def set_y_axis (ax, y_axis, if_show = True):
@@ -229,11 +209,7 @@ def plot(w=30., h=30., nratioplt=0, show_MC=False, errboxes=False, X=[100, 1000,
     #Restore legend 1
     ax[0].add_artist(leg1)
     
-    #Grids
-    ax[0].grid(True, which = 'major')
-    #ax[1].grid(True, which = 'major')
-    #ax[2].grid(True, which = 'major')
-    #ax[3].grid(True, which = 'major')
+   #ax[3].grid(True, which = 'major')
 
     #Hide overlapping ticks
     remove_overlapping_ticks(ax)

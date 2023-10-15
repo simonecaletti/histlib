@@ -26,17 +26,21 @@ for fn, pdf in zip(filenames, pdfnames):
     #project = hist.Collection([list of dfs], [list of feature])
 
     #create plot object 
-    t = hist.Plot(df.data, w=5, h=5, outname = pdf)
-    #t.set_size(5, 5)
+    t = hist.Plot(df.data, outname=pdf)
+    t.set_size(5, 5)
 
     #Add histogram to the plot 
     t.get_hist("value1")
     t.get_hist("value2")
     t.get_hist("value05")
 
+    #Add ratioplot
+    #t.ratioplot("value1", "value2", relative_height=[2, 1])
+
     #customize the plot
     t.title(fn)
     t.xaxis([0, 5, 0.5]) # [start, end, step]
+    #t.grid()
 
     #print the plot
     t.print()

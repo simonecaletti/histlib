@@ -16,7 +16,7 @@ import utils
 import numpy as np
 import matplotlib.pyplot as plt
 import plot
-
+import matplotlib.gridspec as gridspec
 
 ######################################################################
 
@@ -130,15 +130,20 @@ class Plot:
         self.width = w 
         self.height = h 
         self.canvas = self.get_canvas()
+        self.nsubplot = 1 
     
-    def get_canvas(self):
-        f, ax = plt.subplots(1, 1, sharex=True, figsize=(self.width , self.height), dpi=100)
+    def get_canvas(self, nrows=1, ncols=1):
+        f, ax = plt.subplots(nrows, ncols, sharex=True, figsize=(self.width , self.height), dpi=100)
         return (f, ax)
 
     def set_size(self, w, h):
         self.width = w 
-        self.height = h 
+        self.height = h
+        self.canvas = self.get_canvas()
         return None 
+
+    def get_size(self):
+        return self.width, self.height
 
     def get_hist(self, weightskey, centerkey="center", edgeskey="edges", histtype="step"):
         return plt.hist(self.datafile[centerkey], self.datafile[edgeskey], weights=self.datafile[weightskey], histtype=histtype) 
@@ -163,8 +168,21 @@ class Plot:
         plot.set_y_axis(self.canvas[1], yinfo, if_show=ifshow)
         return None
 
-    def add_ratioplot(self, keynum, keyden):
+    def ratioplot(self, keynum, keyden, relative_height):  #not working
+        self.nsubplot += 1 
+        self.canvas = self.get_canvas(nrows=self.nsubplot, ncols=1)
+        gs = gridspec.GridSpec(1, self.nsubplot, height_ratios=relative_height)
+        gs.update(wspace=0.0, hspace=0.0)
+        return None
 
+        self.canvas[1] = [plt.subplot(gs[0,0])]
+        for i in range(self.nsubplot):
+            self.canvas[1] += [plt.subplot(gs[i+1, 0])]
+
+        return None
+
+    def grid(self):
+        self.canvas[1].grid(True, which="major")
         return None
 
     def add_legend(self):
