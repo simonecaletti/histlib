@@ -1,3 +1,7 @@
-./*.dat
-./*.pdf
-./combined/
+#formats
+*.log
+*.dat
+*.pdf
+
+#folders
+combined
