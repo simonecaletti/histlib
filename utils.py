@@ -12,7 +12,7 @@ import io, sys, os
 import re
 import string
 from builtins import range
-
+from itertools import product
 
 ######################################################################
 
@@ -124,6 +124,59 @@ def obj2collect(obj_list, features):
         print("Error: different number of objects and features.")
 
     return dict
+
+def find_fnpattern(filenames, pattern):
+    same = []
+    for name in filenames:
+        if name.find(pattern) != -1: #unfortunaltely NLO (NNLO) contains the pattern LO (NLO, LO) so we have to remove them manually
+            if pattern == "LO" and name.find("NLO") == -1: same.append(name)
+            elif pattern == "NLO" and name.find("NNLO") == -1: same.append(name)
+            elif pattern != "LO" and pattern != "NLO": same.append(name)
+    return same
+
+def intersection(lst1, lst2):
+    lst3 = [value for value in lst1 if value in lst2]
+    return lst3
+
+def full_intersection(list_of_lists):
+    nlist = len(list_of_lists)
+    temp = list_of_lists[0].copy()
+    for i in range(1, nlist):
+        temp = intersection(temp, list_of_lists[i])
+    return temp 
+
+def product(ar_list):
+    if not ar_list:
+        yield ()
+    else:
+        for a in ar_list[0]:
+            for prod in product(ar_list[1:]):
+                yield (a,)+prod 
+
+def get_pairings_from(filenames, patterns): #patterns = [[feat1.1, feat1.2, ...], [feat2.1, feat2.2, ...], ...]
+    pairings = []
+    i = 0
+    combs = list(product(patterns))
+    print(combs)
+    nlayer = len(combs[0])
+    for c in combs:
+        file = full_intersection([find_fnpattern(filenames, p) for p in c])  #now we have a file associated to a combo
+        pairings.append((file, c))
+    return pairings 
+        
+def pairings2collect(pairings):
+
+    return None
+
+
+
+    for p in patterns: # [["pt_had", "xit_hadZ"], ["LO", "NLO"]]
+        temp.append(find_fnpattern(filenames, p[i]))
+    file = full_intersection(temp)
+
+
+
+    return collection 
 
 #########################################################################
 #Functions for the final script
